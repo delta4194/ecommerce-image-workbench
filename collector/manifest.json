@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "商品素材采集助手",
+  "version": "2.4.0",
+  "description": "接收本机工作台任务：自动读取1688采购款式、亚马逊主副图与标题五点，并可驱动 Lovart 网页出图。",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs",
+    "alarms",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "minimum_chrome_version": "120",
+  "host_permissions": [
+    "http://127.0.0.1/*",
+    "https://*.1688.com/*",
+    "https://*.amazon.de/*",
+    "https://*.amazon.co.uk/*",
+    "https://*.amazon.com/*",
+    "https://*.amazon.fr/*",
+    "https://*.amazon.it/*",
+    "https://*.amazon.es/*",
+    "https://*.amazon.nl/*",
+    "https://*.amazon.se/*",
+    "https://*.amazon.pl/*",
+    "https://*.lovart.ai/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://127.0.0.1/*"
+      ],
+      "js": [
+        "bridge.js"
+      ]
+    }
+  ]
+}

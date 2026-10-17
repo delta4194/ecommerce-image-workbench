@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自动作图 · 1688 × 亚马逊</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="fileWarning" hidden>
+  <div class="card">
+    <b>这个页面要用服务地址打开，不能双击文件</b>
+    <p class="hint">请双击程序文件夹里的 <code>Start.cmd</code>，或在浏览器地址栏输入 <code>http://127.0.0.1:3788</code>。现在这种方式样式和功能都加载不出来。</p>
+  </div>
+</div>
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">◈</span>
+    <div class="brand-text">
+      <h1>1688 × 亚马逊 自动作图</h1>
+      <p>粘贴资料 → 开始作图</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="pill" id="connection">读取中…</span>
+    <button class="ghost" id="topFolder">成品文件夹</button>
+  </div>
+</header>
+
+<main>
+  <section class="card compose">
+    <div class="section-head">
+      <span class="step-badge">1</span>
+      <div>
+        <h2>粘贴商品资料</h2>
+        <p>一行里包含：竞品链接、1688货源链接、1688 SKU名称、亚马逊商品名、ASIN。多行可一次粘贴。</p>
+      </div>
+    </div>
+    <textarea id="text" class="paste" rows="5"
+      placeholder="在此粘贴你自己的商品资料、竞品链接、1688货源链接和拿货款式。"></textarea>
+
+    <div class="start-row">
+      <label class="field">
+        <span>作图模型</span>
+        <select id="model"></select>
+      </label>
+      <button class="primary big" id="start">开始作图</button>
+    </div>
+
+    <div class="chips">
+      <span class="chip">SKU匹配</span>
+      <span class="chip">竞品标题与五点采集</span>
+      <span class="chip">高清原图下载</span>
+      <span class="chip strong" id="chipCount">7张图生成</span>
+      <span class="chip">按商品名+ASIN命名</span>
+      <span class="chip">本地保存</span>
+    </div>
+    <p class="hint" id="apihint"></p>
+
+    <details class="fold" id="promptFold">
+      <summary>AI 提示词（已填好默认，可改；改完会记住）</summary>
+      <textarea id="prompt" class="prompt-box" rows="4"
+        placeholder="例如：亚马逊商品图风格，真实商业摄影质感，主体清晰，光线自然明亮，背景干净，不出现文字水印。"></textarea>
+      <p class="hint">这段会作为“用户的AI提示词”优先传给作图模型；不点开就是默认那一版。</p>
+    </details>
+
+    <details class="fold">
+      <summary>更多设置（一般不用动）</summary>
+      <div class="grid-2">
+        <label class="field">
+          <span>附图数量</span>
+          <select id="subCount">
+            <option>2</option><option>3</option><option>4</option><option>5</option>
+            <option selected>6</option><option>7</option><option>8</option>
+          </select>
+        </label>
+        <label class="field check">
+          <span>含1张白底主图</span>
+          <input type="checkbox" id="mainImage" checked>
+        </label>
+        <label class="field">
+          <span>火山方舟 API Key</span>
+          <input type="password" id="apiKey" placeholder="已配置过就留空" autocomplete="off">
+        </label>
+        <label class="field">
+          <span>生图模型 ID</span>
+          <input id="modelId" placeholder="doubao-seedream-4-5-251128">
+        </label>
+        <label class="field">
+          <span>竞品风格参考图</span>
+          <select id="styleCount">
+            <option value="0" selected>全部主副图（最多9张）</option>
+            <option value="3">只用最大的3张</option>
+            <option value="1">只用最大那张</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="saveSettings">保存设置</button>
+        <button id="pickFolder">选择保存位置…</button>
+<button id="probeModels">检测可用模型</button>
+        <button id="openBrowser">打开已登录的浏览器</button>
+        <button id="openExtension">助手更新到最新版</button>
+        <button id="openFolder">打开成品文件夹</button>
+      </div>
+      <p class="hint">“检测可用模型”会挨个试 Seedream 各版本，最多生成1张1K小图，找到能用的一版就自动选上。</p>
+      <p class="hint" id="settingsNote"></p>
+    </details>
+  </section>
+
+  <div class="list-head">
+    <h2>作图任务</h2>
+    <span class="hint" id="taskCount"></span>
+  </div>
+  <section id="tasks" class="tasks"></section>
+</main>
+
+<div id="toast" hidden></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
